@@ -1,3 +1,16 @@
+# ccapdev-forumwebapp1
+**CCAPDEV Major Course Output 1: Front-End Development**
+
+The front-end view of "FilmFusion", a forum web application
+
+### Pertinent Links:
+[Project Specifications](https://drive.google.com/file/d/1MAlsx4bLRyKi68P0XpVlrUhLrPL7yKB8/view?usp=sharing)<br>
+
+---
+
+Created by: Mark Daniel Gutierrez, Jon Jacinto, Angelo Guerra, and Alina Sayo<br>
+Date Submitted: June 2023
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

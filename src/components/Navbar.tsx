@@ -5,7 +5,7 @@ import React from "react";
 import { getAuthSession } from "@/lib/auth";
 import UserAccountNav from "./UserAccountNav";
 
-const Navbar = async () => {
+async function Navbar() {
   const session = await getAuthSession();
 
   return (
@@ -13,7 +13,7 @@ const Navbar = async () => {
       <div className="container max-w-7xl h-full mx-auto flex items-center justify-between gap-2">
         {/* logo here */}
         <Link href="/" className="flex gap-2 items-center">
-          {/* <Icons.logo className="w-8 h-8 sm:h-6 sm:w-6" /> ->> uncomment once logo exists */}
+          <Icons.logo className="w-10 h-10 sm:h-8 sm:w-8" />
           <p className="hidden text-zinc-700 text-sm font-medium m:block">
             reddit clone
           </p>
@@ -31,6 +31,6 @@ const Navbar = async () => {
       </div>
     </div>
   );
-};
+}
 
 export default Navbar;

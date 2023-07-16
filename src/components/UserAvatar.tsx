@@ -9,6 +9,12 @@ type Props = {
   user: Pick<User, "name" | "image">;
 } & AvatarProps;
 
+/**
+ * UserAvatar component displays the avatar of a user.
+ *
+ * @param user - The user object containing the name and image.
+ * @param props - Additional Avatar props.
+ */
 function UserAvatar({ user, ...props }: Props) {
   return (
     <Avatar {...props}>

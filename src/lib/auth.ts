@@ -4,6 +4,10 @@ import GoogleProvider from "next-auth/providers/google";
 import { db } from "./db";
 import { nanoid } from "nanoid";
 
+/**
+ * authOptions defines the configuration options for NextAuth.
+ * It specifies the adapter, session strategy, pages, providers, and callbacks.
+ */
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   session: {
@@ -19,6 +23,10 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    /**
+     * session callback is called whenever a session is created or updated.
+     * It updates the session user object with additional properties from the token.
+     */
     async session({ token, session }) {
       if (token) {
         session.user.id = token.id;
@@ -31,6 +39,10 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
 
+    /**
+     * jwt callback is called whenever a JSON Web Token is created.
+     * It fetches the user from the database and updates the token with additional properties.
+     */
     async jwt({ token, user }) {
       const dbUser = await db.user.findFirst({
         where: {
@@ -63,10 +75,18 @@ export const authOptions: NextAuthOptions = {
       };
     },
 
+    /**
+     * redirect callback is called after a successful sign-in or sign-up.
+     * It specifies the redirect URL after authentication.
+     */
     redirect() {
       return "/";
     },
   },
 };
 
+/**
+ * getAuthSession is a utility function that returns the server session.
+ * It uses the authOptions defined above to retrieve the server session.
+ */
 export const getAuthSession = () => getServerSession(authOptions);

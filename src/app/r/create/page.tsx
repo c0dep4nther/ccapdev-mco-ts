@@ -19,6 +19,7 @@ function Page({}: Props) {
   const { loginToast } = useCustomToast();
 
   const { mutate: createcommunity, isLoading } = useMutation({
+    // Mutation function for creating a subreddit
     mutationFn: async () => {
       const payload: CreateSubredditPayload = {
         name: input,
@@ -28,6 +29,7 @@ function Page({}: Props) {
       return data as string;
     },
     onError: (err) => {
+      // Error handling for different error scenarios
       if (err instanceof AxiosError) {
         if (err.response?.status === 409) {
           return toast({
@@ -50,6 +52,7 @@ function Page({}: Props) {
         }
       }
 
+      // Generic error message
       toast({
         title: "Something went wrong.",
         description: "Could not create subreddit.",
@@ -57,13 +60,13 @@ function Page({}: Props) {
       });
     },
     onSuccess: (data) => {
+      // Redirect to the created subreddit page on success
       router.push(`/r/${data}`);
     },
   });
 
   return (
     <div>
-      {" "}
       <div className="container flex items-center h-full max-w-3xl mx-auto">
         <div className="relative bg-white w-full h-fit p-4 rounded-lg space-y-6">
           <div className="flex justify-between items-center">

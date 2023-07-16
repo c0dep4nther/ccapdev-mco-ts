@@ -3,6 +3,9 @@ import { Icons } from "./Icons";
 import Link from "next/link";
 import UserAuthForm from "./UserAuthForm";
 
+/**
+ * SignUp component displays the sign-up page.
+ */
 function SignUp() {
   return (
     <div className="container mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
@@ -14,7 +17,7 @@ function SignUp() {
           our User Agreement and Privacy Policy.
         </p>
 
-        {/* sign up form */}
+        {/* Sign-up form */}
         <UserAuthForm />
 
         <p className="px-8 text-center text-sm text-zinc-700">

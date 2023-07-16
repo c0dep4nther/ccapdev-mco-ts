@@ -10,9 +10,22 @@ import { toast } from "@/hooks/use-toast";
 
 type Props = {} & React.HTMLAttributes<HTMLDivElement>;
 
+/**
+ * UserAuthForm component displays a form for user authentication.
+ * It provides a button to log in with Google.
+ *
+ * @param className - Additional CSS class names for styling.
+ * @param props - Additional HTML attributes to be spread to the root element.
+ */
 function UserAuthForm({ className, ...props }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  /**
+   * Handles Google login functionality.
+   * Triggers the sign-in process with Google authentication provider.
+   * Displays a loading state while the login process is in progress.
+   * Displays a toast notification if an error occurs during login.
+   */
   const googleLogin = async () => {
     setIsLoading(true);
 

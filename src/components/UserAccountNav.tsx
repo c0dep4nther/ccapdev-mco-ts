@@ -17,9 +17,16 @@ type Props = {
   user: Pick<User, "name" | "email" | "image">;
 };
 
+/**
+ * UserAccountNav component displays a dropdown menu for user account navigation.
+ * It includes options such as user profile, feed, creating a community, settings, and sign out.
+ *
+ * @param user - User object containing name, email, and image details.
+ */
 function UserAccountNav({ user }: Props) {
   return (
     <DropdownMenu>
+      {/* DropdownMenuTrigger renders the user avatar as the trigger */}
       <DropdownMenuTrigger>
         <UserAvatar
           className="h-8 w-8"
@@ -30,10 +37,14 @@ function UserAccountNav({ user }: Props) {
         />
       </DropdownMenuTrigger>
 
+      {/* DropdownMenuContent contains the menu items */}
       <DropdownMenuContent className="bg-white" align="end">
+        {/* User information section */}
         <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-1 leading-none">
+            {/* Display user's name if available */}
             {user.name && <p className="font-medium">{user.name}</p>}
+            {/* Display user's email if available */}
             {user.email && (
               <p className="w-[200px] truncate text-sm text-zinc-700">
                 {user.email}
@@ -42,6 +53,7 @@ function UserAccountNav({ user }: Props) {
           </div>
         </div>
 
+        {/* Menu items */}
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
@@ -58,6 +70,7 @@ function UserAccountNav({ user }: Props) {
 
         <DropdownMenuSeparator />
 
+        {/* Sign out option */}
         <DropdownMenuItem
           onSelect={(e) => {
             e.preventDefault();

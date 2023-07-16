@@ -49,6 +49,15 @@ function Page({}: Props) {
           return loginToast();
         }
       }
+
+      toast({
+        title: "Something went wrong.",
+        description: "Could not create subreddit.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: (data) => {
+      router.push(`/r/${data}`);
     },
   });
 

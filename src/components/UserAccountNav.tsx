@@ -13,11 +13,11 @@ import {
 import UserAvatar from "./UserAvatar";
 import Link from "next/link";
 
-type UserAccountNavProps = {
+type Props = {
   user: Pick<User, "name" | "email" | "image">;
 };
 
-function UserAccountNav({ user }: UserAccountNavProps) {
+function UserAccountNav({ user }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>

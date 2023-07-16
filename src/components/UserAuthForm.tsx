@@ -1,25 +1,24 @@
 "use client";
 
-import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { signIn } from "next-auth/react";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/Button";
-import { Icons } from "./Icons";
+import { signIn } from "next-auth/react";
 import { Loader2 } from "lucide-react";
+import { Icons } from "./Icons";
+import { toast } from "@/hooks/use-toast";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+type Props = {} & React.HTMLAttributes<HTMLDivElement>;
 
-function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const { toast } = useToast();
+function UserAuthForm({ className, ...props }: Props) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const googleLogin = async () => {
     setIsLoading(true);
 
     try {
       await signIn("google");
-    } catch (error) {
+    } catch (err) {
       // toast notification
       toast({
         title: "Uh oh...",

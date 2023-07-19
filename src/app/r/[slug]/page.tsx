@@ -31,7 +31,7 @@ async function page({ params }: Props) {
         },
         orderBy: {
           createdAt: "desc",
-        },
+        }, // added to prevent duplicate posts
 
         take: INFINITE_SCROLLING_PAGINATION_RESULTS,
       },

@@ -87,7 +87,7 @@ export async function PATCH(req: Request) {
           createdAt: post.createdAt,
         };
 
-        await redis.set(`post:${post.id}`, cachePaylod);
+        await redis.hset(`post:${post.id}`, cachePaylod);
       }
 
       return new Response("OK");
@@ -122,7 +122,7 @@ export async function PATCH(req: Request) {
         createdAt: post.createdAt,
       };
 
-      await redis.set(`post:${post.id}`, cachePaylod);
+      await redis.hset(`post:${post.id}`, cachePaylod);
     }
 
     return new Response("OK");

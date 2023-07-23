@@ -1,4 +1,6 @@
 import UserNameForm from "@/components/UserNameForm";
+import UserAboutForm from "@/components/UserAboutForm";
+
 import { authOptions, getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -26,6 +28,15 @@ async function page() {
               id: session.user.id,
               username: session.user.username || "",
             }}
+          />
+        </div>
+
+        <div className="grid gap-8">
+          <UserAboutForm
+         /*   user={{
+              id: session.user.id,
+              about: session.user.about || "",
+            }} */
           />
         </div>
       </div>

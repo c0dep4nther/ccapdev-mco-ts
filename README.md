@@ -1,7 +1,7 @@
 # ccapdev-forumwebapp
 **CCAPDEV Major Course Output: Web Application**
 
-The front-end view of "FilmFusion", a forum web application
+The front-end and back-end view of "FilmFusion", a forum web application
 
 ### Pertinent Links:
 [Project Specifications](https://drive.google.com/file/d/1MAlsx4bLRyKi68P0XpVlrUhLrPL7yKB8/view?usp=sharing)<br>

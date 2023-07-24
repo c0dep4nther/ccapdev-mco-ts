@@ -68,13 +68,13 @@ function PostComment({ comment, votesAmt, currentVote, postId }: Props) {
 
   const { mutate: editComment, isLoading: isEditLoading } = useMutation({
     mutationFn: async ({
-      id,
+      commentId,
       postId,
       text,
       replyToId,
     }: UpdateCommentRequest) => {
       const payload: UpdateCommentRequest = {
-        id,
+        commentId,
         postId,
         text,
         replyToId,
@@ -91,7 +91,7 @@ function PostComment({ comment, votesAmt, currentVote, postId }: Props) {
         variant: "destructive",
       });
     },
-    onSuccess: (data, variables) => {
+    onSuccess: (variables) => {
       router.refresh();
       setIsEditing(false);
       setEditInput(variables.text);
@@ -249,7 +249,7 @@ function PostComment({ comment, votesAmt, currentVote, postId }: Props) {
                     onClick={() => {
                       if (!editInput) return;
                       editComment({
-                        id: comment.id,
+                        commentId: comment.id,
                         postId,
                         text: editInput,
                         replyToId: comment.replyToId,

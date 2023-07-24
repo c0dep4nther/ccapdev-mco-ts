@@ -47,7 +47,12 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const { id, postId, text, replyToId } = updateCommentValidator.parse(body);
+    const {
+      commentId: id,
+      postId,
+      text,
+      replyToId,
+    } = updateCommentValidator.parse(body);
 
     const session = await getAuthSession();
 

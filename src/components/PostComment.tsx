@@ -116,6 +116,9 @@ function PostComment({ comment, votesAmt, currentVote, postId }: Props) {
           <p className="max-h-40 truncate text-xs text-zinc-500">
             {formatTimeToNow(new Date(comment.createdAt))}
           </p>
+          {comment.createdAt.getTime() !== comment.updatedAt.getTime() && (
+            <p className="max-h-40 truncate text-xs text-zinc-500">(edited)</p>
+          )}
         </div>
       </div>
 

@@ -39,5 +39,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ---
 
-Created by: Mark Daniel Gutierrez, Angelo Guerra, Jon Jacinto, and Alina Sayo<br>
+Created by: Mark Daniel Gutierrez, Angelo Guerra, Alina Sayo, and Jon Jacinto<br>
 Date Submitted: August 2023

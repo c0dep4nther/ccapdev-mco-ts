@@ -1,4 +1,4 @@
-## CCAPDEV Major Course Output: Web Application
+# CCAPDEV Major Course Output: Web Application
 
 The front-end and back-end implementation of "**FilmFusion**", a forum web application for passionate cinephiles and movie enthusiasts discussing, debating and delving into all things movie-related.
 

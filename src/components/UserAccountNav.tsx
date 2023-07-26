@@ -57,8 +57,8 @@ function UserAccountNav({ user }: Props) {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href="/">Feed</Link>
-        </DropdownMenuItem>
+          <Link href={'/u/page'}>User Profile</Link>
+        </DropdownMenuItem> {/* TODO */}
 
         <DropdownMenuItem asChild>
           <Link href="/r/create">Create Community</Link>

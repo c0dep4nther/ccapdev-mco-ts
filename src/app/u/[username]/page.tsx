@@ -4,7 +4,6 @@ import { db } from "@/lib/db";
 import React from 'react'
 import Link from "next/link";
 
-import GeneralFeed from "@/components/GeneralFeed";
 import UserFeed from "@/components/UserFeed";
 import { buttonVariants } from "@/components/ui/Button";
 import { authOptions, getAuthSession } from "@/lib/auth";
@@ -21,9 +20,7 @@ type Props = {
 async function page({ user }: Props) {
     const session = await getAuthSession();
 
-    if (!session?.user) {
-        redirect(authOptions.pages?.signIn || "/sign-in");
-      }
+    
 
     const posts = await db.post.findMany({
         where: {}
@@ -35,7 +32,7 @@ async function page({ user }: Props) {
         <h1 className="font-bold text-3xl md:text-4xl">Your profile</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
             {/* feed */}
-            {<GeneralFeed />}
+            {<UserFeed />}
 
             {/* Profile bar */}
             {/*}

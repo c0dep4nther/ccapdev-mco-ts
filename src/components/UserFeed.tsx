@@ -6,37 +6,27 @@ import { getAuthSession } from "@/lib/auth";
 
 async function UserFeed() {
     const session = await getAuthSession();
-    
-    const selfPosts = await db.subscription.findMany({
-        where: {
-            userId: session?.user?.id,
-        },
-        include: {
-            user: true,
-        },
-    });
+    const userId = session?.user?.id;
   
-    const posts = await db.post.findMany({
+    const userPosts = await db.post.findMany({
         where: {
-            author: {
-                name: {
-                    in: selfPosts.map(({ user }) => user.id)
-                },
+          author: {
+            id: userId,
             },
         },
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      votes: true,
-      author: true,
-      comments: true,
-      subreddit: true,
-    },
-    take: INFINITE_SCROLLING_PAGINATION_RESULTS,
-  });
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: {
+          votes: true,
+          author: true,
+          comments: true,
+          subreddit: true,
+        },
+        take: INFINITE_SCROLLING_PAGINATION_RESULTS,
+      });
 
-  return <PostFeed initialPosts={posts} />;
+  return <PostFeed initialPosts={userPosts} />;
 }
 
 export default UserFeed;

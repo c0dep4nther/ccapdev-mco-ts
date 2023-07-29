@@ -5,26 +5,24 @@ import PostFeed from "./PostFeed";
 import { getAuthSession } from "@/lib/auth";
 
 async function UserFeed() {
-    const session = await getAuthSession();
-    const userId = session?.user?.id;
-  
-    const userPosts = await db.post.findMany({
-        where: {
-          author: {
-            id: userId,
-            },
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-        include: {
-          votes: true,
-          author: true,
-          comments: true,
-          subreddit: true,
-        },
-        take: INFINITE_SCROLLING_PAGINATION_RESULTS,
-      });
+  const session = await getAuthSession();
+  const userId = session?.user?.id;
+
+  const userPosts = await db.post.findMany({
+    where: {
+      authorId: userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      votes: true,
+      author: true,
+      comments: true,
+      subreddit: true,
+    },
+    take: INFINITE_SCROLLING_PAGINATION_RESULTS,
+  });
 
   return <PostFeed initialPosts={userPosts} />;
 }

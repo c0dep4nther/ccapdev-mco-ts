@@ -33,11 +33,10 @@ async function page() {
 
         <div className="grid gap-8">
           <UserAboutForm
-         /*   user={{
+            user={{
               id: session.user.id,
               about: session.user.about || "",
-            }} */
-          />
+            }}/>
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
-import { User } from "next-auth";
 import { redirect } from "next/navigation";
-import { db } from "@/lib/db";
 import React from 'react'
 import Link from "next/link";
 
+import { User } from "next-auth";
 import UserFeed from "@/components/UserFeed";
+import UserAvatar from "@/components/UserAvatar";
 import { buttonVariants } from "@/components/ui/Button";
 import { authOptions, getAuthSession } from "@/lib/auth";
 
@@ -15,18 +15,11 @@ export const metadata = {
 
 type Props = {
     user: Pick<User, "name" | "email" | "image">;
-};
+  };
 
 async function page({ user }: Props) {
     const session = await getAuthSession();
 
-    
-
-    const posts = await db.post.findMany({
-        where: {}
-
-    });
-    
       return (
       <div>
         <h1 className="font-bold text-3xl md:text-4xl">Your profile</h1>
@@ -35,24 +28,39 @@ async function page({ user }: Props) {
             {<UserFeed />}
 
             {/* Profile bar */}
-            {/*}
             <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
-            <div className="bg-emerald-100 px-6 py-4">
-                <p className="font-semibold py-3 flex items-center gap-1.5">
-                <HomeIcon className="w-4 h-4" />
-                Home
-                </p>
+            <div className="bg-sky-300 px-6 py-4">
+                {/* TODO: }
+                <UserAvatar 
+                    className="h-8 w-8"
+                    user={{
+                        image: user.image || null,
+                    }}
+                /> */}
+                <p className="font-semibold py-3 text-center items-center gap-1.5">place dp here</p>
             </div>
 
-            <dl className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
-                <div className="flex justify-between gap-x-4 py-3">
-                <p className="text-zinc-500">
-                    Your personal Film Fusion homepage. Come here to check in with
-                    your favorite communities.
-      ``````````</p>
+            <dl className="-my-3 divide-y divide-gray-300 px-6 py-4 text-sm leading-6">
+                <div className="justify-between gap-x-4 py-3">
+                    <p className="font-semibold text-2xl text-center items-center gap-0.5">
+                        {session?.user.name}
+                    </p>
+                    <p className="font-semibold text-lg text-center items-center gap-1.5">
+                        u/{session?.user.username}
+                    </p>
                 </div>
+                <div className="justify-between gap-x-4 py-3">
+                    <p className="text-zinc-500 text-center items-center">
+                        {/*TODO: {session?.user.about}*/}
+                    </p>
+                </div>
+
+                <Link
+                    className={buttonVariants({className: "w-full mb-6",})} href={`/settings`} > Edit Profile
+                </Link>
+                
             </dl>
-            </div> */}
+            </div>
         </div>
       </div>
       );

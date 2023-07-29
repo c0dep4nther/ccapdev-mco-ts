@@ -46,6 +46,7 @@ model User {
   createdSubreddits Subreddit[] @relation("CreatedBy")
 
   username String? @unique
+  about    String?
 
   image        String?
   accounts     Account[]

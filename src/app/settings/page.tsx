@@ -36,7 +36,8 @@ async function page() {
             user={{
               id: session.user.id,
               about: session.user.about || "",
-            }}/>
+            }}
+          />
         </div>
       </div>
     </div>

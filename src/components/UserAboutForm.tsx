@@ -16,39 +16,37 @@ import { Textarea } from "./ui/Textarea";
 import { Button } from "./ui/Button";
 
 import { useMutation } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
-function UserAboutForm() {
+type Props = {
+  user: Pick<User, "id" | "about">;
+};
+
+function UserAboutForm({ user } : Props) {
   const {
     handleSubmit,
     formState: { errors }
-  } = useForm({});
+  } = useForm({
+    defaultValues: {
+      about: user.about || "",
+    }
+  });
 
   const [input, setInput] = useState<string>("");
   const router = useRouter();
   
   const { mutate: updateAbout, isLoading } = useMutation({
-    mutationFn: async () => {},
     onError: (err) => {
       // Error handling for different error scenarios (about string above length limit)
       // TODO
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 409) {
-          return toast({
-            title: "Username already taken.",
-            description: "Please choose a different username.",
-            variant: "destructive",
-          });
-        }
-      }
+      
 
       // Generic error message
       return toast({
         title: "Something went wrong.",
-        description: "Could not change username.",
+        description: "Could not change about.",
         variant: "destructive",
       });
     },
@@ -62,7 +60,7 @@ function UserAboutForm() {
   });
   
   return (
-    //<form onSubmit={handleSubmit((e) => updateAbout(e))}>
+    <form onSubmit={handleSubmit((e) => updateAbout(e))}>
       <Card>
         <CardHeader>
           <CardTitle>About You (Optional)</CardTitle>
@@ -91,7 +89,7 @@ function UserAboutForm() {
               <span className="text-sm text-zinc-400 ">Maximum of 200 characters only</span>
             </div>
             
-            {errors?.name && (
+            {errors?.about && (
               <p className="px-1 text-xs text-red-600">{}</p>
             )}
           </div>
@@ -108,7 +106,7 @@ function UserAboutForm() {
           )}
         </CardFooter>
       </Card>
-    //</form>
+    </form>
   );
 }
 

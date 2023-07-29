@@ -60,7 +60,7 @@ function UserAboutForm({ user } : Props) {
   });
   
   return (
-    <form onSubmit={handleSubmit((e) => updateAbout(e))}>
+    //<form onSubmit={handleSubmit((e) => updateAbout(e))}>
       <Card>
         <CardHeader>
           <CardTitle>About You (Optional)</CardTitle>
@@ -106,7 +106,7 @@ function UserAboutForm({ user } : Props) {
           )}
         </CardFooter>
       </Card>
-    </form>
+    //</form>
   );
 }
 

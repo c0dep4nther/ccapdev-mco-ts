@@ -1,5 +1,7 @@
 "use client";
 
+import { AboutRequest, AboutValidator } from "@/lib/validators/about";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -14,8 +16,8 @@ import {
 import { Label } from "./ui/Label";
 import { Textarea } from "./ui/Textarea";
 import { Button } from "./ui/Button";
-
 import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
@@ -27,26 +29,31 @@ type Props = {
 function UserAboutForm({ user } : Props) {
   const {
     handleSubmit,
+    register,
     formState: { errors }
-  } = useForm({
+  } = useForm<AboutRequest>({
+    resolver: zodResolver(AboutValidator),
     defaultValues: {
-      about: user.about || "",
+      name: user.about || "",
     }
   });
 
-  const [input, setInput] = useState<string>("");
   const router = useRouter();
   
   const { mutate: updateAbout, isLoading } = useMutation({
-    onError: (err) => {
-      // Error handling for different error scenarios (about string above length limit)
-      // TODO
-      
+    mutationFn: async ({ name }: AboutRequest) => {
+      const payload: AboutRequest = {
+        name,
+      };
 
+      const { data } = await axios.patch("/api/user/about", payload);
+      return data;
+    },
+    onError: (err) => {
       // Generic error message
       return toast({
         title: "Something went wrong.",
-        description: "Could not change about.",
+        description: "Could not change about you.",
         variant: "destructive",
       });
     },
@@ -60,7 +67,7 @@ function UserAboutForm({ user } : Props) {
   });
   
   return (
-    // TODO: <form onSubmit={handleSubmit((e) => updateAbout(e))}>
+    <form onSubmit={handleSubmit((e) => updateAbout(e))}>
       <Card>
         <CardHeader>
           <CardTitle>About You (Optional)</CardTitle>
@@ -78,18 +85,17 @@ function UserAboutForm({ user } : Props) {
             <Label className="sr-only" htmlFor="about">
               About You
             </Label>
-            <div className="mt-2">
+            <div>
               <Textarea
                 id="about"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
                 rows={1}
                 placeholder="About You (Optional)"
+                {...register("name")}
               />
               <span className="text-sm text-zinc-400 ">Maximum of 200 characters only</span>
             </div>
             
-            {errors?.about && (
+            {errors?.name && (
               <p className="px-1 text-xs text-red-600">{}</p>
             )}
           </div>
@@ -106,7 +112,7 @@ function UserAboutForm({ user } : Props) {
           )}
         </CardFooter>
       </Card>
-    //</form>
+    </form>
   );
 }
 

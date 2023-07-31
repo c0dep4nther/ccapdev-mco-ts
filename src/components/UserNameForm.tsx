@@ -82,7 +82,7 @@ function UserNameForm({ user }: Props) {
         <CardHeader>
           <CardTitle>Your username</CardTitle>
           <CardDescription>
-            Please enter a display name for your account. You can change this at
+            Please enter a username for your account. You can change this at
             any time.
           </CardDescription>
         </CardHeader>

@@ -45,7 +45,7 @@ async function page() {
           <UserAboutForm
             user={{
               id: session.user.id,
-              about: session.user.about || "",
+              about: session.user?.about || "",
             }}
           />
         </div>

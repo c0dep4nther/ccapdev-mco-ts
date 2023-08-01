@@ -24,7 +24,9 @@ async function Navbar() {
         <SearchBar />
 
         {session?.user ? (
-          <UserAccountNav user={session.user} />
+          <UserAccountNav
+              user={session.user}
+              username={session.user.username || ""} />
         ) : (
           <Link href="/sign-in" className={buttonVariants()}>
             Sign in

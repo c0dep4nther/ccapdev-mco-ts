@@ -15,6 +15,7 @@ import Link from "next/link";
 
 type Props = {
   user: Pick<User, "name" | "email" | "image">;
+  username: string;
 };
 
 /**
@@ -23,7 +24,7 @@ type Props = {
  *
  * @param user - User object containing name, email, and image details.
  */
-function UserAccountNav({ user }: Props) {
+function UserAccountNav({ user, username }: Props) {
   return (
     <DropdownMenu>
       {/* DropdownMenuTrigger renders the user avatar as the trigger */}
@@ -57,8 +58,8 @@ function UserAccountNav({ user }: Props) {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href={'/u/page'}>User Profile</Link>
-        </DropdownMenuItem> {/* TODO */}
+          <Link href={`/u/${username}`}>User Profile</Link>
+        </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
           <Link href="/r/create">Create Community</Link>

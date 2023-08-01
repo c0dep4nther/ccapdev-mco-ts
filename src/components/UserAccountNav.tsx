@@ -16,6 +16,7 @@ import Link from "next/link";
 type Props = {
   user: Pick<User, "name" | "email" | "image">;
   username: string;
+  about: string;
 };
 
 /**
@@ -24,7 +25,7 @@ type Props = {
  *
  * @param user - User object containing name, email, and image details.
  */
-function UserAccountNav({ user, username }: Props) {
+function UserAccountNav({ user, username, about }: Props) {
   return (
     <DropdownMenu>
       {/* DropdownMenuTrigger renders the user avatar as the trigger */}
@@ -58,7 +59,18 @@ function UserAccountNav({ user, username }: Props) {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href={`/u/${username}`}>User Profile</Link>
+          <Link href={{
+              pathname:`/u/${username}`,
+              query: {
+                username: username,
+                name: user.name,
+                about: about,
+              },
+            }}
+            as={`/u/${username}`}
+          >
+            User Profile
+          </Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>

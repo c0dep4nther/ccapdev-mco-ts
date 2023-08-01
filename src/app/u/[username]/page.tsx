@@ -14,16 +14,17 @@ export const metadata = {
 };
 
 type Props = {
-  //user: Pick<User, "id" | "username" | "name" | "about">;
-  username: string;
-  name: string;
-  about: string;
+  params: {
+    username: string;
+  };
 };
 
-async function page({ username, name, about }: Props) {
-    
+async function page({ params }: Props) {
+  
+  const { username } = params;  
+
   // Calls posts from the database
-    const user_name = await db.user.findFirst({
+    const user = await db.user.findFirst({
         where: {
           username: username,
         },
@@ -43,7 +44,7 @@ async function page({ username, name, about }: Props) {
           },
         },
       });
-
+      
       return (
       <div>
         <h1 className="font-bold text-3xl md:text-4xl">u/{username}</h1>
@@ -67,7 +68,7 @@ async function page({ username, name, about }: Props) {
             <dl className="-my-3 divide-y divide-gray-300 px-6 py-4 text-sm leading-6">
                 <div className="justify-between gap-x-4 py-3">
                     <p className="font-semibold text-2xl text-center items-center gap-0.5">
-                        {name}
+                        {username}
                     </p>
                     <p className="font-semibold text-lg text-center items-center gap-1.5">
                         u/{username}
@@ -75,7 +76,7 @@ async function page({ username, name, about }: Props) {
                 </div>
                 <div className="justify-between gap-x-4 py-3">
                     <p className="text-zinc-500 text-center items-center">
-                        {about}
+                        {username}
                     </p>
                 </div>
 

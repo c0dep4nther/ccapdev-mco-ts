@@ -4,6 +4,8 @@ import { MessageSquare } from "lucide-react";
 import React, { useRef } from "react";
 import EditorOutput from "./EditorOutput";
 import PostVoteClient from "./post-vote/PostVoteClient";
+import Link from "next/link";
+import PostVoteServer from "./post-vote/PostVoteServer";
 
 type PartialVote = Pick<Vote, "type">;
 
@@ -50,7 +52,21 @@ function Post({
                 <span className="px-1">•</span>
               </>
             ) : null}
-            <span>Posted by u/{post.author.username}</span>{" "}
+            <span>Posted by{" "}
+              <Link href= {{
+                pathname: `/u/${post.author.username}`,
+                query: {
+                  username: post.author.username,
+                  name: post.author.name,
+                  about: post.author.about,
+                },
+              }}
+              as={`/u/${post.author.username}`}
+              className="underline text-zinc-500 underline-offset-2" 
+              >
+                u/{post.author.username}
+              </Link>
+            </span>{" "}
             {formatTimeToNow(new Date(post.createdAt))}
           </div>
           <a href={`/r/${subredditName}/post/${post.id}`}>

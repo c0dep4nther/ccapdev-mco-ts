@@ -52,20 +52,14 @@ function Post({
                 <span className="px-1">•</span>
               </>
             ) : null}
-            <span>Posted by{" "}
-              <Link href= {{
-                pathname: `/u/${post.author.username}`,
-                query: {
-                  username: post.author.username,
-                  name: post.author.name,
-                  about: post.author.about,
-                },
-              }}
-              as={`/u/${post.author.username}`}
-              className="underline text-zinc-500 underline-offset-2" 
+            <span>
+              Posted by{" "}
+              <a
+                href={`/u/${post.author.username}`}
+                className="underline text-zinc-500 underline-offset-2"
               >
                 u/{post.author.username}
-              </Link>
+              </a>
             </span>{" "}
             {formatTimeToNow(new Date(post.createdAt))}
           </div>

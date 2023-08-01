@@ -2,15 +2,21 @@ import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { db } from "@/lib/db";
 import React from "react";
 import PostFeed from "./PostFeed";
-import { getAuthSession } from "@/lib/auth";
 
-async function UserFeed() {
-  const session = await getAuthSession();
-  const userId = session?.user?.id;
+type Props = {
+  username: string | null | undefined;
+};
 
-  const userPosts = await db.post.findMany({
+async function UserFeed({ username }: Props) {
+  const user = await db.user.findFirst({
     where: {
-      authorId: userId,
+      username: username,
+    },
+  });
+
+  const posts = await db.post.findMany({
+    where: {
+      authorId: user?.id,
     },
     orderBy: {
       createdAt: "desc",
@@ -24,7 +30,7 @@ async function UserFeed() {
     take: INFINITE_SCROLLING_PAGINATION_RESULTS,
   });
 
-  return <PostFeed initialPosts={userPosts} />;
+  return <PostFeed initialPosts={posts} />;
 }
 
 export default UserFeed;

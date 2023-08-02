@@ -16,3 +16,9 @@ export const updateCommentValidator = z.object({
 });
 
 export type UpdateCommentRequest = z.infer<typeof updateCommentValidator>;
+
+export const deleteCommentValidator = z.object({
+  commentId: z.string(),
+});
+
+export type DeleteCommentRequest = z.infer<typeof deleteCommentValidator>;

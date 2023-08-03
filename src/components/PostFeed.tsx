@@ -12,9 +12,10 @@ import Post from "./Post";
 type Props = {
   initialPosts: ExtendedPost[];
   subredditName?: string;
+  authorId?: string;
 };
 
-function PostFeed({ initialPosts, subredditName }: Props) {
+function PostFeed({ initialPosts, subredditName, authorId }: Props) {
   const lastPostRef = useRef<HTMLLIElement>(null);
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
@@ -26,11 +27,18 @@ function PostFeed({ initialPosts, subredditName }: Props) {
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ["infinite-query"],
     async ({ pageParam = 1 }) => {
-      const query =
+      const subredditQuery =
         `/api/posts?limit=${INFINITE_SCROLLING_PAGINATION_RESULTS}&page=${pageParam}` +
         (!!subredditName ? `&subredditName=${subredditName}` : "");
 
-      const { data } = await axios.get(query);
+      const userQuery =
+        `/api/posts?limit=${INFINITE_SCROLLING_PAGINATION_RESULTS}&page=${pageParam}` +
+        (!!authorId ? `&authorId=${authorId}` : "");
+
+      const { data } = userQuery
+        ? await axios.get(userQuery)
+        : await axios.get(subredditQuery);
+
       return data as ExtendedPost[];
     },
     {

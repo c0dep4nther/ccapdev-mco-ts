@@ -30,7 +30,7 @@ async function UserFeed({ username }: Props) {
     take: INFINITE_SCROLLING_PAGINATION_RESULTS,
   });
 
-  return <PostFeed initialPosts={posts} />;
+  return <PostFeed initialPosts={posts} authorId={user?.id} />;
 }
 
 export default UserFeed;

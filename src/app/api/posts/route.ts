@@ -25,16 +25,18 @@ export async function GET(req: Request) {
   }
 
   try {
-    const { limit, page, subredditName } = z
+    const { limit, page, subredditName, authorId } = z
       .object({
         limit: z.string(),
         page: z.string(),
         subredditName: z.string().nullish().optional(),
+        authorId: z.string().nullish().optional(),
       })
       .parse({
         subredditName: url.searchParams.get("subredditName"),
         limit: url.searchParams.get("limit"),
         page: url.searchParams.get("page"),
+        authorId: url.searchParams.get("authorId"),
       });
 
     let whereClause = {};
@@ -44,6 +46,10 @@ export async function GET(req: Request) {
         subreddit: {
           name: subredditName,
         },
+      };
+    } else if (authorId) {
+      whereClause = {
+        authorId: authorId,
       };
     } else if (session) {
       whereClause = {

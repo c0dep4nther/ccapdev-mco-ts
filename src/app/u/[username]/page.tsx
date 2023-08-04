@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 import { db } from "@/lib/db";
+import { getAuthSession } from "@/lib/auth";
 import UserFeed from "@/components/UserFeed";
 import UserAvatar from "@/components/UserAvatar";
 import { buttonVariants } from "@/components/ui/Button";
@@ -22,6 +23,7 @@ type Props = {
 
 async function page({ params }: Props) {
   const { username } = params;
+  const session = await getAuthSession();
 
   // Calls posts from the database
   const user = await db.user.findFirst({
@@ -60,23 +62,19 @@ async function page({ params }: Props) {
 
         {/* Profile bar */}
         <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
-          <div className="bg-sky-300 px-6 py-4">
-            {/* TODO: }
-                <UserAvatar 
-                    className="h-8 w-8"
-                    user={{
-                        image: user.image || null,
-                    }}
-                /> */}
-            <p className="font-semibold py-3 text-center items-center gap-1.5">
-              place dp here
-            </p>
+          <div className="bg-sky-300 px-6 py-4 flex justify-center items-center">
+            <UserAvatar 
+              className="h-24 w-24 justify-center items-center"
+              user={{
+                image: user.image || null,
+              }}
+            />
           </div>
 
           <dl className="-my-3 divide-y divide-gray-300 px-6 py-4 text-sm leading-6">
             <div className="justify-between gap-x-4 py-3">
               <p className="font-semibold text-2xl text-center items-center gap-0.5">
-                {username}
+                {user.name}
               </p>
               <p className="font-semibold text-lg text-center items-center gap-1.5">
                 u/{username}
@@ -84,17 +82,18 @@ async function page({ params }: Props) {
             </div>
             <div className="justify-between gap-x-4 py-3">
               <p className="text-zinc-500 text-center items-center">
-                {username}
+                {user.about}
               </p>
             </div>
 
-            <Link
-              className={buttonVariants({ className: "w-full mb-6" })}
-              href={`/settings`}
-            >
-              {" "}
-              Edit Profile
-            </Link>
+            {session?.user.username == user.username ? 
+              <Link
+                className={buttonVariants({ className: "w-full mb-6" })}
+                href={`/settings`}
+              >
+                {" "}
+                Edit Profile
+              </Link> : null }
           </dl>
         </div>
       </div>

@@ -75,9 +75,10 @@ function PostComment({ comment, votesAmt, currentVote, postId }: Props) {
         />
 
         <div className="ml-2 flex items-center gap-x-2">
-          <p className="text-sm font-medium text-gray-900">
+          <a className="text-sm font-medium text-gray-900 hover:underline hover:underline-offset-2"
+              href={`/u/${comment.author.username}`}>
             u/{comment.author.username}
-          </p>
+          </a>
           <p className="max-h-40 truncate text-xs text-zinc-500">
             {formatTimeToNow(new Date(comment.createdAt))}
           </p>

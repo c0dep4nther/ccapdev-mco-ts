@@ -70,7 +70,7 @@ function UserAboutForm({ user } : Props) {
     <form onSubmit={handleSubmit((e) => updateAbout(e))}>
       <Card>
         <CardHeader>
-          <CardTitle>About You (Optional)</CardTitle>
+          <CardTitle>Your bio (Optional)</CardTitle>
           <CardDescription>
             Please enter a brief description of yourself shown on your profile. You can change this at
             any time.
@@ -83,13 +83,13 @@ function UserAboutForm({ user } : Props) {
             </div>
 
             <Label className="sr-only" htmlFor="about">
-              About You
+              Your bio
             </Label>
             <div>
               <Textarea
                 id="about"
                 rows={1}
-                placeholder="About You (Optional)"
+                placeholder="Your bio (Optional)"
                 {...register("name")}
               />
               <span className="text-sm text-zinc-400 ">Maximum of 200 characters only</span>

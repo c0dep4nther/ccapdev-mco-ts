@@ -5,7 +5,7 @@ export const Icons = {
   logo: (props: LucideProps) => (
     <svg {...props} viewBox="0 0 497 497">
       <path
-        fill-opacity="0"
+        fillOpacity="0"
         opacity="1.000000"
         stroke="none"
         d="

@@ -6,7 +6,7 @@ import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import Post from "./Post";
 
 type Props = {
@@ -57,7 +57,8 @@ function PostFeed({ initialPosts, subredditName }: Props) {
         // As a workaround, we don't try to display anything when this occurs.
         //
         // This might be an issue related to Next.js serialization behavior.
-        if (post.votes === undefined) return <></>;
+        if (post.votes === undefined)
+          return <Fragment key={post.id}></Fragment>;
 
         const votesAmt = post.votes.reduce((acc, vote) => {
           if (vote.type === "UP") {

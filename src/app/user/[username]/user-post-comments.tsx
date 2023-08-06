@@ -8,7 +8,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 
 type ExtendedComments = (Comment & {
   post: Post & {
@@ -64,7 +64,8 @@ export function CommentsFeed({
         // As a workaround, we don't try to display anything when this occurs.
         //
         // This might be an issue related to Next.js serialization behavior.
-        if (comment.post === undefined) return <></>;
+        if (comment.post === undefined)
+          return <Fragment key={comment.id}></Fragment>;
 
         const votesAmt = comment.post.votes.reduce((acc, vote) => {
           if (vote.type === "UP") {

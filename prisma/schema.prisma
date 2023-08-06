@@ -89,6 +89,7 @@ model Post {
   updatedAt   DateTime  @updatedAt
   subreddit   Subreddit @relation(fields: [subredditId], references: [id])
   subredditId String
+  isDeleted Boolean @default(false)
 
   author   User   @relation(fields: [authorId], references: [id])
   authorId String

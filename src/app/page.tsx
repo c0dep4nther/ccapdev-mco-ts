@@ -1,5 +1,6 @@
 import CustomFeed from "@/components/CustomFeed";
 import GeneralFeed from "@/components/GeneralFeed";
+import ScrollToTop from "@/components/ScrolltoTop";
 import TopSubreddits from "@/components/TopSubreddits";
 import { buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";
@@ -58,6 +59,7 @@ export default async function Home() {
               <TopSubreddits/>
             </dl>
           </div>
+          <ScrollToTop />
         </div>
       </div>
     </>

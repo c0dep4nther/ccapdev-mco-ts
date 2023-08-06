@@ -1,5 +1,6 @@
 import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
 import ToFeedButton from "@/components/ToFeedButton";
+import ScrollToTop from "@/components/ScrolltoTop";
 import { buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -66,6 +67,7 @@ export default async function Layout({
           <ul className="flex flex-col col-span-2 space-y-6">{children}</ul>
 
           {/* info sidebar */}
+          <div>
           <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
             <div className="bg-indigo-300 px-6 py-4">
               <p className="font-semibold py-3">About r/{subreddit.name}</p>
@@ -103,6 +105,8 @@ export default async function Layout({
 
         
             </dl>
+          </div>
+          <ScrollToTop />
           </div>
         </div>
       </div>

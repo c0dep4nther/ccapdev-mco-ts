@@ -26,7 +26,11 @@ const ScrollToTop: React.FC = () => {
         opacity: showButton ? 1 : 0, // Set opacity based on showButton
         pointerEvents: showButton ? 'auto' : 'none', // Enable/disable interaction
         transition: 'opacity 0.3s ease', // Smooth fade transition
-      }}
+
+        // Media query for large screens (adjust the breakpoint as needed)
+        '@media (max-width: 768px)': {
+          display: 'none', // Show the box on large screens
+      }}}
     >
       <Button variant="outline" onClick={() => scrollTo({ y: 0 })}>
         Back to Top

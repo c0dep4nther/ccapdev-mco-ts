@@ -6,7 +6,7 @@ import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
 import Post from "./Post";
 
 type Props = {
@@ -52,14 +52,6 @@ function PostFeed({ initialPosts, subredditName }: Props) {
   return (
     <ul className="flex flex-col col-span-2 space-y-6">
       {posts.map((post, index) => {
-        // NOTE: For some reason, when initalPosts is generated using a <Link>
-        // navigation, comment.post will be missing on all the initial posts.
-        // As a workaround, we don't try to display anything when this occurs.
-        //
-        // This might be an issue related to Next.js serialization behavior.
-        if (post.votes === undefined)
-          return <Fragment key={post.id}></Fragment>;
-
         const votesAmt = post.votes.reduce((acc, vote) => {
           if (vote.type === "UP") {
             return acc + 1;

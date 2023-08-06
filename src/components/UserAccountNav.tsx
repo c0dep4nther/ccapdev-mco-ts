@@ -15,7 +15,6 @@ import Link from "next/link";
 
 type Props = {
   user: Pick<User, "name" | "email" | "image">;
-  profileLink: string | null;
 };
 
 /**
@@ -24,7 +23,7 @@ type Props = {
  *
  * @param user - User object containing name, email, and image details.
  */
-function UserAccountNav({ user, profileLink }: Props) {
+function UserAccountNav({ user }: Props) {
   return (
     <DropdownMenu>
       {/* DropdownMenuTrigger renders the user avatar as the trigger */}
@@ -59,10 +58,6 @@ function UserAccountNav({ user, profileLink }: Props) {
 
         <DropdownMenuItem asChild>
           <Link href="/">Feed</Link>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem asChild>
-          <Link href={profileLink as string}>Profile</Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>

@@ -5,23 +5,9 @@ import { buttonVariants } from "./ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import UserAccountNav from "./UserAccountNav";
 import SearchBar from "./SearchBar";
-import { db } from "@/lib/db";
 
 async function Navbar() {
   const session = await getAuthSession();
-
-  let profileLink = null;
-  if (session?.user) {
-    const user = await db.user.findUnique({
-      where: {
-        email: session.user.email as string,
-      },
-    });
-
-    if (user) {
-      profileLink = `/user/${user.username}`;
-    }
-  }
 
   return (
     <div className="fixed top-0 inset-x-0 h-fit bg-zinc-100 border-b border-zinc-300 z-[10] py-2">
@@ -38,7 +24,7 @@ async function Navbar() {
         <SearchBar />
 
         {session?.user ? (
-          <UserAccountNav user={session.user} profileLink={profileLink} />
+          <UserAccountNav user={session.user} />
         ) : (
           <Link href="/sign-in" className={buttonVariants()}>
             Sign in

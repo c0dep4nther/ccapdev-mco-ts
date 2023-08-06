@@ -89,15 +89,15 @@ function CommentsFeed({ initialComments, username }:
                 </span>{" "}
                 ·{" "}
                 <span className="font-semibold">
-                  r/ {comment.post.subreddit.name}
+                  r/{comment.post.subreddit.name}
                 </span>{" "}
                 ·{" "}
                 <span className="text-gray-500">
-                  Posted by u/ {comment.post.author.username}
+                  Posted by u/{comment.post.author.username}
                 </span>
               </div>
             </Link>
-            <div className="grid grid-cols-[2rem_1fr] px-3 pt-3 pb-3 rounded-b-lg border border-white">
+            <div className="grid grid-cols-1 px-3 pt-3 pb-3 rounded-b-lg border border-white">
               <div>
                 <div className="text-sm mb-1">
                   u/{username}{" "}

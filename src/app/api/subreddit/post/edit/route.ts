@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { z } from "zod";
 import { UpdatePostValidator } from "@/lib/validators/post";
 
+
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -21,10 +23,10 @@ export async function POST(req: Request) {
 
     await db.post.update({
       data: {
-        id,
         title,
         subredditId,
         content,
+        isEdited: true,
       },
       where: {
         id,

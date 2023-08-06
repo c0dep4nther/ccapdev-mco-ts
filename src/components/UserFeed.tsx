@@ -2,6 +2,7 @@ import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { db } from "@/lib/db";
 import React from "react";
 import PostFeed from "./PostFeed";
+import CommentsFeed from "./CommentsFeed";
 import { PenLineIcon, MessageSquareIcon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs"
 
@@ -32,6 +33,33 @@ async function UserFeed({ username }: Props) {
     take: INFINITE_SCROLLING_PAGINATION_RESULTS,
   });
 
+  const comments = await db.comment.findMany({
+    where: {
+      AND: [
+        {
+          author: {
+            username,
+          },
+        },
+        {
+          isDeleted: false,
+        },
+      ],
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      post: {
+        include: {
+          subreddit: true,
+          author: true,
+          votes: true,
+        },
+      },
+    },
+  });
+
   return (
     <>
       <Tabs defaultValue="posts" className="col-span-2">
@@ -51,7 +79,7 @@ async function UserFeed({ username }: Props) {
         </TabsContent>
         
         <TabsContent value="comments">
-
+          <CommentsFeed initialComments={comments as any} username={user?.username} />
         </TabsContent>
       </Tabs>
     </>

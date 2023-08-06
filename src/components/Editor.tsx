@@ -1,5 +1,10 @@
 "use client";
-import { PostCreationRequest, PostValidator, UpdatePostRequest, UpdatePostValidator } from "@/lib/validators/post";
+import {
+  PostCreationRequest,
+  PostValidator,
+  UpdatePostRequest,
+  UpdatePostValidator,
+} from "@/lib/validators/post";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import TextareaAutoSize from "react-textarea-autosize";
@@ -11,11 +16,10 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 
-
 type Props = {
   subredditId: string;
   isEditing: boolean;
-  postId: string | undefined;
+  postId?: string | undefined;
 };
 
 /**
@@ -39,15 +43,16 @@ function Editor({ subredditId, postId, isEditing }: Props) {
   });
   const {
     register: register2,
-    formState : {errors : errors2},
-    handleSubmit: handleSubmit2} = useForm<UpdatePostRequest>({
+    formState: { errors: errors2 },
+    handleSubmit: handleSubmit2,
+  } = useForm<UpdatePostRequest>({
     resolver: zodResolver(UpdatePostValidator),
-    defaultValues:{
+    defaultValues: {
       postId,
       subredditId,
       title: "",
       content: null,
-    }
+    },
   });
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -138,14 +143,12 @@ function Editor({ subredditId, postId, isEditing }: Props) {
 
   useEffect(() => {
     if (Object.keys(errors2).length) {
-      console.log(postId);
       for (const [_key, value] of Object.entries(errors2)) {
         toast({
           title: "Something went wrong",
           description: (value.message as { message: string }).message,
           variant: "destructive",
         });
-        console.log(errors2);
       }
     }
   }, [errors2]);
@@ -195,7 +198,7 @@ function Editor({ subredditId, postId, isEditing }: Props) {
     },
     onSuccess: () => {
       // Redirect to the subreddit after successful post creation
-      
+
       const newPathname = pathname.split("/").slice(0, -1).join("/");
       router.push(newPathname);
 
@@ -221,12 +224,12 @@ function Editor({ subredditId, postId, isEditing }: Props) {
         title,
         content,
       };
-      console.log("submitted form")
+      console.log("submitted form");
 
       const { data } = await axios.post("/api/subreddit/post/edit", payload);
       return data;
     },
-    
+
     onError: (err) => {
       return toast({
         title: "Something went wrong",
@@ -270,7 +273,7 @@ function Editor({ subredditId, postId, isEditing }: Props) {
 
     createPost(payload);
   }
-  async function onEdit(data: UpdatePostRequest){
+  async function onEdit(data: UpdatePostRequest) {
     const blocks = await ref.current?.save();
     console.log("onedit");
     const payload: UpdatePostRequest = {
@@ -288,69 +291,59 @@ function Editor({ subredditId, postId, isEditing }: Props) {
   }
 
   const { ref: titleRef, ...rest } = register("title");
-  const { ref: titleRef2, ...rest2} = register2("title");
-if(!isEditing){
-  return (
-    <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
-      <form
-        id="subreddit-post-form"
-        className="w-fit"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="prose prose-stone dark:prose-invert">
-          <TextareaAutoSize
-            ref={(e) => {
-              titleRef(e);
-              console.log(postId);
-              // Assign the ref to _titleRef for setting focus
-              // @ts-ignore
-              _titleRef.current = e;
-              
-            }}
-            {...rest}
-            placeholder="Title"
-            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
-          />
+  const { ref: titleRef2, ...rest2 } = register2("title");
+  if (!isEditing) {
+    return (
+      <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
+        <form
+          id="subreddit-post-form"
+          className="w-fit"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="prose prose-stone dark:prose-invert">
+            <TextareaAutoSize
+              ref={(e) => {
+                titleRef(e);
+                console.log(postId);
+                // Assign the ref to _titleRef for setting focus
+                // @ts-ignore
+                _titleRef.current = e;
+              }}
+              {...rest}
+              placeholder="Title"
+              className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
+            />
 
-          <div id="editor" className="min-h-[200px]" />
-        </div>
-      </form>
-    </div>
-  );
-    }
-if(isEditing){
-  return(
-  <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
-    
-  <form
-    id="edit-form"
-    className="w-fit"
-    onSubmit={handleSubmit2(onEdit)}
-  >
-    <div className="prose prose-stone dark:prose-invert">
-      <TextareaAutoSize
-        ref={(e) => {
-          titleRef2(e);
-          console.log(postId);
-          // Assign the ref to _titleRef for setting focus
-          // @ts-ignore
-
-          
-          _titleRef2.current = e;
-          
-        }}
-        {...rest2}
-        placeholder="Title"
-        className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
-      />
-      <div id="editor" className="min-h-[200px]" />
-    </div>
-  </form>
-</div>
-);
-      }
+            <div id="editor" className="min-h-[200px]" />
+          </div>
+        </form>
+      </div>
+    );
   }
+  if (isEditing) {
+    return (
+      <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
+        <form id="edit-form" className="w-fit" onSubmit={handleSubmit2(onEdit)}>
+          <div className="prose prose-stone dark:prose-invert">
+            <TextareaAutoSize
+              ref={(e) => {
+                titleRef2(e);
+                console.log(postId);
+                // Assign the ref to _titleRef for setting focus
+                // @ts-ignore
 
-
+                _titleRef2.current = e;
+              }}
+              {...rest2}
+              placeholder="Title"
+              className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
+            />
+            <div id="editor" className="min-h-[200px]" />
+          </div>
+        </form>
+      </div>
+    );
+  }
+}
 
 export default Editor;

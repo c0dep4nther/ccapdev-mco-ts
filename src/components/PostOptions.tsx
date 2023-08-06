@@ -108,7 +108,7 @@ function PostOptions({ postId, authorId, subredditId }: Props) {
   return (
 
 
-      <div className="flex gap-2 items-center flex-wrap">
+      <div className="flex gap-2 items-center flex-wrap mt-4">
 
     {/* Show edit button only if this comment is ours. */}
     {typeof session?.user.id === "string" &&

@@ -29,12 +29,12 @@ async function CommentsSection({ postId }: Props) {
   });
 
   return (
-    <div className="flex flex-col gap-y-4 mt-4">
-      <hr className="w-full h-px my-6" />
+    <div className="flex flex-col gap-y-4">
+      <hr className="w-full h-px my-4" />
 
       <CreateComment postId={postId} />
 
-      <div className="flex flex-col gap-y-6 mt-4">
+      <div className="flex flex-col gap-y-6">
         {comments
           .filter((comment) => !comment.replyToId)
           .map((topLevelComment) => {

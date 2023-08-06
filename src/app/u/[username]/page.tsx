@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { getAuthSession } from "@/lib/auth";
 import UserFeed from "@/components/UserFeed";
 import UserAvatar from "@/components/UserAvatar";
+import ScrollToTop from "@/components/ScrolltoTop";
 import { buttonVariants } from "@/components/ui/Button";
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { User } from "@prisma/client";
@@ -58,43 +59,44 @@ async function page({ params }: Props) {
         {/* feed */}
         <UserFeed username={user?.username} />
 
-        {/* TODO: PLACE USER_NAME PARAMS HERE TO FILTER */}
+        <div>
+          {/* Profile bar */}
+          <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
+            <div className="bg-sky-300 px-6 py-4 flex justify-center items-center">
+              <UserAvatar 
+                className="h-24 w-24 justify-center items-center"
+                user={{
+                  image: user.image || null,
+                }}
+              />
+            </div>
 
-        {/* Profile bar */}
-        <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
-          <div className="bg-sky-300 px-6 py-4 flex justify-center items-center">
-            <UserAvatar 
-              className="h-24 w-24 justify-center items-center"
-              user={{
-                image: user.image || null,
-              }}
-            />
+            <dl className="-my-3 divide-y divide-gray-300 px-6 py-4 text-sm leading-6">
+              <div className="justify-between gap-x-4 py-3">
+                <p className="font-semibold text-2xl text-center items-center gap-0.5">
+                  {user.name}
+                </p>
+                <p className="font-semibold text-lg text-center items-center gap-1.5">
+                  u/{username}
+                </p>
+              </div>
+              <div className="justify-between gap-x-4 py-3">
+                <p className="text-zinc-500 text-center items-center">
+                  {user.about}
+                </p>
+              </div>
+
+              {session?.user.username == user.username ? 
+                <Link
+                  className={buttonVariants({ className: "w-full mb-6" })}
+                  href={`/settings`}
+                >
+                  {" "}
+                  Edit Profile
+                </Link> : null }
+            </dl>
           </div>
-
-          <dl className="-my-3 divide-y divide-gray-300 px-6 py-4 text-sm leading-6">
-            <div className="justify-between gap-x-4 py-3">
-              <p className="font-semibold text-2xl text-center items-center gap-0.5">
-                {user.name}
-              </p>
-              <p className="font-semibold text-lg text-center items-center gap-1.5">
-                u/{username}
-              </p>
-            </div>
-            <div className="justify-between gap-x-4 py-3">
-              <p className="text-zinc-500 text-center items-center">
-                {user.about}
-              </p>
-            </div>
-
-            {session?.user.username == user.username ? 
-              <Link
-                className={buttonVariants({ className: "w-full mb-6" })}
-                href={`/settings`}
-              >
-                {" "}
-                Edit Profile
-              </Link> : null }
-          </dl>
+          <ScrollToTop />
         </div>
       </div>
     </div>

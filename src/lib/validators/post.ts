@@ -19,6 +19,7 @@ export const DeletePostValidator = z.object({
 export type DeletePostRequest = z.infer<typeof DeletePostValidator>;
 
 export const UpdatePostValidator = z.object({
+  postId: z.string(),
   title: z
     .string()
     .min(3, { message: "Title must be longer than 3 characters" })

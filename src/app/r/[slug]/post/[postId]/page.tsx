@@ -47,8 +47,6 @@ async function page({ params }: Props) {
     return notFound();
   }
 
-  console.log(post?.authorId);
-
   if(post?.isDeleted) return(
 <div>
       <div className="h-full flex flex-col sm:flex-row items-center sm:items-start justify-between"> 
@@ -123,6 +121,7 @@ async function page({ params }: Props) {
               u/{post?.author.username ?? cachedPost.authorUsername}
             </a>
             {" "}{formatTimeToNow(new Date(post?.createdAt ?? cachedPost.createdAt))}
+            {post?.isEdited && (<span>(edited)</span>)}
           </p>
           
           <h1 className="text-xl font-semibold py-2 leading-6 text-gray-900">

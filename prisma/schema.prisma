@@ -90,6 +90,7 @@ model Post {
   subreddit   Subreddit @relation(fields: [subredditId], references: [id])
   subredditId String
   isDeleted Boolean @default(false)
+  isEdited Boolean @default(false)
 
   author   User   @relation(fields: [authorId], references: [id])
   authorId String

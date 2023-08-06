@@ -1,4 +1,5 @@
 "use client";
+
 import { Comment, CommentVote, User } from "@prisma/client";
 import React, { useRef, useState } from "react";
 import UserAvatar from "./UserAvatar";

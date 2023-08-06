@@ -56,11 +56,11 @@ function Post({
               <span>Posted by u/[deleted]</span>{" "}
               {formatTimeToNow(new Date(post.createdAt))}
             </div>
-            
+            <a href={`/r/${subredditName}/post/${post.id}`}>
               <h1 className="text-lg font-semibold py-2 leading-6 text-gray-900">
                 [deleted]
               </h1>
-           
+            </a>
   
             <div
               className="relative text-sm max-h-40 w-full overflow-clip"
@@ -119,6 +119,9 @@ function Post({
               </a>
             </span>{" "}
             {formatTimeToNow(new Date(post.createdAt))}
+            {post.isEdited &&(
+              <span>(edited)</span>
+            )}
           </div>
           <a href={`/r/${subredditName}/post/${post.id}`}>
             <h1 className="text-lg font-semibold py-2 leading-6 text-gray-900">

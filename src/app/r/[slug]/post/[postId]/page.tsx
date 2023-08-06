@@ -47,8 +47,6 @@ async function page({ params }: Props) {
     return notFound();
   }
 
-  console.log(post?.authorId);
-
   if(post?.isDeleted) return(
 <div>
       <div className="h-full flex flex-col sm:flex-row items-center sm:items-start justify-between"> 
@@ -119,6 +117,7 @@ async function page({ params }: Props) {
           <p className="max-h-40 mt-1 truncate text-xs text-gray-500">
             Posted by u/{post?.author.username ?? cachedPost.authorUsername}{" "}
             {formatTimeToNow(new Date(post?.createdAt ?? cachedPost.createdAt))}
+            {post?.isEdited && (<span>(edited)</span>)}
           </p>
           
           <h1 className="text-xl font-semibold py-2 leading-6 text-gray-900">

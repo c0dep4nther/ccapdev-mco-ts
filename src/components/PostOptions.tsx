@@ -1,7 +1,5 @@
 "use client";
-import { Comment, CommentVote, Post, User } from "@prisma/client";
 import React, { useRef, useState } from "react";
-import UserAvatar from "./UserAvatar";
 import { formatTimeToNow } from "@/lib/utils";
 import Editor from "@/components/Editor";
 import CommentVotes from "./CommentVotes";
@@ -45,37 +43,6 @@ function PostOptions({ postId, authorId, subredditId }: Props) {
 //   const [editInput, setEditInput] = useState<string>(comment.text);
 //   const [savedText, setSavedText] = useState<string>(comment.text);
 
-//   const { mutate: editComment, isLoading: isEditLoading } = useMutation({
-//     mutationFn: async ({
-//       commentId,
-//       postId,
-//       text,
-//       replyToId,
-//     }: UpdateCommentRequest) => {
-//       const payload: UpdateCommentRequest = {
-//         commentId,
-//         postId,
-//         text,
-//         replyToId,
-//       };
-
-//       const { data } = await axios.post("/api/subreddit/post/comment", payload);
-//       setSavedText(text);
-//       return data;
-//     },
-//     onError: () => {
-//       return toast({
-//         title: "Something went wrong.",
-//         description: "Your comment was not updated. Please try again.",
-//         variant: "destructive",
-//       });
-//     },
-//     onSuccess: (variables) => {
-//       router.refresh();
-//       setIsEditing(false);
-//       setEditInput(variables.text);
-//     },
-//   });
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
@@ -181,7 +148,7 @@ function PostOptions({ postId, authorId, subredditId }: Props) {
           )}
 
 
-        {/* {isEditing ? (
+        {isEditing ? (
           <div className="grid w-full gap-1.5">
             
 
@@ -198,13 +165,14 @@ function PostOptions({ postId, authorId, subredditId }: Props) {
                 >
                   Cancel
                 </Button>
-                <Button type="submit"  form="subreddit-edit-form">
+                <Button type="submit" className="w-full" form="edit-form">
+                  
                   Edit
                 </Button>
               </div>
             </div>
           </div>
-        ) : null} */}
+        ) : null}
       </div>
  );
 }

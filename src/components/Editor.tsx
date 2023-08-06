@@ -1,5 +1,4 @@
 "use client";
-
 import { PostCreationRequest, PostValidator, UpdatePostRequest, UpdatePostValidator } from "@/lib/validators/post";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,10 +24,10 @@ type Props = {
  *
  * @param subredditId - The ID of the subreddit for which the post is being created.
  */
-function Editor({ subredditId, isEditing, postId }: Props) {
+function Editor({ subredditId, postId, isEditing }: Props) {
   const {
-    register,
-    handleSubmit,
+    register: register,
+    handleSubmit: handleSubmit,
     formState: { errors },
   } = useForm<PostCreationRequest>({
     resolver: zodResolver(PostValidator),
@@ -38,12 +37,22 @@ function Editor({ subredditId, isEditing, postId }: Props) {
       content: null,
     },
   });
-  const handleEdit = useForm<UpdatePostRequest>({
+  const {
+    register: register2,
+    formState : {errors : errors2},
+    handleSubmit: handleSubmit2} = useForm<UpdatePostRequest>({
     resolver: zodResolver(UpdatePostValidator),
+    defaultValues:{
+      postId,
+      subredditId,
+      title: "",
+      content: null,
+    }
   });
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const _titleRef = useRef<HTMLTextAreaElement>(null);
+  const _titleRef2 = useRef<HTMLTextAreaElement>(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -109,7 +118,6 @@ function Editor({ subredditId, isEditing, postId }: Props) {
       });
     }
   }, []);
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       setIsMounted(true);
@@ -127,6 +135,20 @@ function Editor({ subredditId, isEditing, postId }: Props) {
       }
     }
   }, [errors]);
+
+  useEffect(() => {
+    if (Object.keys(errors2).length) {
+      console.log(postId);
+      for (const [_key, value] of Object.entries(errors2)) {
+        toast({
+          title: "Something went wrong",
+          description: (value.message as { message: string }).message,
+          variant: "destructive",
+        });
+        console.log(errors2);
+      }
+    }
+  }, [errors2]);
 
   useEffect(() => {
     const init = async () => {
@@ -173,6 +195,7 @@ function Editor({ subredditId, isEditing, postId }: Props) {
     },
     onSuccess: () => {
       // Redirect to the subreddit after successful post creation
+      
       const newPathname = pathname.split("/").slice(0, -1).join("/");
       router.push(newPathname);
 
@@ -198,20 +221,26 @@ function Editor({ subredditId, isEditing, postId }: Props) {
         title,
         content,
       };
+      console.log("submitted form")
 
       const { data } = await axios.post("/api/subreddit/post/edit", payload);
       return data;
     },
+    
     onError: (err) => {
       return toast({
         title: "Something went wrong",
-        description: "Your post was not published, please try again later.",
+        description: "Your post was not edited, please try again later.",
         variant: "destructive",
       });
     },
     onSuccess: () => {
-      // Redirect to the subreddit after successful post creation
-      const newPathname = pathname.split("/").slice(0, -1).join("/");
+      // Redirect to the subreddit after successful post edit
+      console.log(pathname);
+      const delimiter = "/";
+      const start = 3;
+      const newPathname = pathname.split(delimiter).slice(0, start).join("/");
+      console.log(newPathname);
       router.push(newPathname);
 
       // Refresh the page to update the post list
@@ -243,13 +272,15 @@ function Editor({ subredditId, isEditing, postId }: Props) {
   }
   async function onEdit(data: UpdatePostRequest){
     const blocks = await ref.current?.save();
-
+    console.log("onedit");
     const payload: UpdatePostRequest = {
       postId: postId as string,
       title: data.title,
       content: blocks,
       subredditId: data.subredditId,
     };
+
+    updatePost(payload);
   }
 
   if (!isMounted) {
@@ -257,6 +288,7 @@ function Editor({ subredditId, isEditing, postId }: Props) {
   }
 
   const { ref: titleRef, ...rest } = register("title");
+  const { ref: titleRef2, ...rest2} = register2("title");
 if(!isEditing){
   return (
     <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
@@ -269,10 +301,11 @@ if(!isEditing){
           <TextareaAutoSize
             ref={(e) => {
               titleRef(e);
-
+              console.log(postId);
               // Assign the ref to _titleRef for setting focus
               // @ts-ignore
               _titleRef.current = e;
+              
             }}
             {...rest}
             placeholder="Title"
@@ -285,33 +318,37 @@ if(!isEditing){
     </div>
   );
     }
+if(isEditing){
+  return(
+  <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
+    
+  <form
+    id="edit-form"
+    className="w-fit"
+    onSubmit={handleSubmit2(onEdit)}
+  >
+    <div className="prose prose-stone dark:prose-invert">
+      <TextareaAutoSize
+        ref={(e) => {
+          titleRef2(e);
+          console.log(postId);
+          // Assign the ref to _titleRef for setting focus
+          // @ts-ignore
 
-//   return(<div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
-//   <form
-//     id="subreddit-edit-form"
-//     className="w-fit"
-//     onSubmit={}
-//   >
-//     <div className="prose prose-stone dark:prose-invert">
-//       <TextareaAutoSize
-//         ref={(e) => {
-//           titleRef(e);
-
-//           // Assign the ref to _titleRef for setting focus
-//           // @ts-ignore
-//           _titleRef.current = e;
-//         }}
-//         {...rest}
-//         placeholder="Title"
-//         className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
-//       />
-
-//       <div id="editor" className="min-h-[200px]" />
-//     </div>
-//   </form>
-// </div>
-// );
-
+          
+          _titleRef2.current = e;
+          
+        }}
+        {...rest2}
+        placeholder="Title"
+        className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
+      />
+      <div id="editor" className="min-h-[200px]" />
+    </div>
+  </form>
+</div>
+);
+      }
   }
 
 

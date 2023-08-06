@@ -5,6 +5,7 @@ import { buttonVariants } from "./ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import UserAccountNav from "./UserAccountNav";
 import SearchBar from "./SearchBar";
+import DarkModeButton from "@/components/DarkModeButton";
 
 async function Navbar() {
   const session = await getAuthSession();
@@ -23,13 +24,15 @@ async function Navbar() {
         {/* search bar */}
         <SearchBar />
 
-        {session?.user ? (
-          <UserAccountNav user={session.user} />
-        ) : (
-          <Link href="/sign-in" className={buttonVariants()}>
-            Sign in
-          </Link>
-        )}
+        
+          <DarkModeButton />
+          {session?.user ? (
+            <UserAccountNav user={session.user} />
+          ) : (
+            <Link href="/sign-in" className={buttonVariants()}>
+              Sign in
+            </Link>
+          )}
       </div>
     </div>
   );

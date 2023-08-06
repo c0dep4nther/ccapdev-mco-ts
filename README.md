@@ -1,15 +1,6 @@
-# ccapdev-forumwebapp1
-**CCAPDEV Major Course Output 1: Front-End Development**
+# CCAPDEV Major Course Output: Web Application
 
-The front-end view of "FilmFusion", a forum web application
-
-### Pertinent Links:
-[Project Specifications](https://drive.google.com/file/d/1MAlsx4bLRyKi68P0XpVlrUhLrPL7yKB8/view?usp=sharing)<br>
-
----
-
-Created by: Mark Daniel Gutierrez, Jon Jacinto, Angelo Guerra, and Alina Sayo<br>
-Date Submitted: June 2023
+The front-end and back-end implementation of "**FilmFusion**", a forum web application for passionate cinephiles and movie enthusiasts discussing, debating and delving into all things movie-related.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
@@ -45,3 +36,8 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+---
+
+Created by: Mark Daniel Gutierrez, Angelo Guerra, Alina Sayo, and Jon Jacinto<br>
+Date Submitted: August 2023

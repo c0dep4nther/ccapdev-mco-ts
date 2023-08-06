@@ -100,6 +100,7 @@ function Editor({ subredditId }: Props) {
           table: Table,
           embed: Embed,
         },
+        minHeight: 0,
       });
     }
   }, []);
@@ -224,7 +225,7 @@ function Editor({ subredditId }: Props) {
             className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
           />
 
-          <div id="editor" className="min-h-[500px]" />
+          <div id="editor" className="min-h-[200px]" />
         </div>
       </form>
     </div>

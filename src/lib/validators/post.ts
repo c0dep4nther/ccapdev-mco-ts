@@ -9,4 +9,22 @@ export const PostValidator = z.object({
   content: z.any(),
 });
 
+
 export type PostCreationRequest = z.infer<typeof PostValidator>;
+
+export const DeletePostValidator = z.object({
+  postId: z.string(),
+});
+
+export type DeletePostRequest = z.infer<typeof DeletePostValidator>;
+
+export const UpdatePostValidator = z.object({
+  title: z
+    .string()
+    .min(3, { message: "Title must be longer than 3 characters" })
+    .max(128, { message: "Title must be at least 128 characters" }),
+  subredditId: z.string(),
+  content: z.any(),
+})
+
+export type UpdatePostRequest = z.infer<typeof UpdatePostValidator>;

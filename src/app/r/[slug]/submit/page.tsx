@@ -35,7 +35,7 @@ async function page({ params }: Props) {
       </div>
 
       {/* form */}
-      <Editor subredditId={subreddit.id} />
+      <Editor subredditId={subreddit.id} isEditing={false}/>
 
       <div className="w-full flex justify-end">
         <Button type="submit" className="w-full" form="subreddit-post-form">

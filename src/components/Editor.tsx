@@ -1,6 +1,6 @@
 "use client";
 
-import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
+import { PostCreationRequest, PostValidator, UpdatePostRequest, UpdatePostValidator } from "@/lib/validators/post";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import TextareaAutoSize from "react-textarea-autosize";
@@ -12,8 +12,11 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 
+
 type Props = {
   subredditId: string;
+  isEditing: boolean;
+  postId: string | undefined;
 };
 
 /**
@@ -22,7 +25,7 @@ type Props = {
  *
  * @param subredditId - The ID of the subreddit for which the post is being created.
  */
-function Editor({ subredditId }: Props) {
+function Editor({ subredditId, isEditing, postId }: Props) {
   const {
     register,
     handleSubmit,
@@ -35,7 +38,9 @@ function Editor({ subredditId }: Props) {
       content: null,
     },
   });
-
+  const handleEdit = useForm<UpdatePostRequest>({
+    resolver: zodResolver(UpdatePostValidator),
+  });
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const _titleRef = useRef<HTMLTextAreaElement>(null);
@@ -180,12 +185,51 @@ function Editor({ subredditId }: Props) {
     },
   });
 
+  const { mutate: updatePost } = useMutation({
+    mutationFn: async ({
+      postId,
+      title,
+      content,
+      subredditId,
+    }: UpdatePostRequest) => {
+      const payload = {
+        postId,
+        subredditId,
+        title,
+        content,
+      };
+
+      const { data } = await axios.post("/api/subreddit/post/edit", payload);
+      return data;
+    },
+    onError: (err) => {
+      return toast({
+        title: "Something went wrong",
+        description: "Your post was not published, please try again later.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      // Redirect to the subreddit after successful post creation
+      const newPathname = pathname.split("/").slice(0, -1).join("/");
+      router.push(newPathname);
+
+      // Refresh the page to update the post list
+      router.refresh();
+
+      return toast({
+        description: "Your post has been edited.",
+      });
+    },
+  });
+
   /**
    * Handles the form submission.
    * Saves the EditorJS content and calls the createPost mutation.
    *
    * @param data - Form data including the post title and content.
    */
+
   async function onSubmit(data: PostCreationRequest) {
     const blocks = await ref.current?.save();
 
@@ -197,13 +241,23 @@ function Editor({ subredditId }: Props) {
 
     createPost(payload);
   }
+  async function onEdit(data: UpdatePostRequest){
+    const blocks = await ref.current?.save();
+
+    const payload: UpdatePostRequest = {
+      postId: postId as string,
+      title: data.title,
+      content: blocks,
+      subredditId: data.subredditId,
+    };
+  }
 
   if (!isMounted) {
     return null;
   }
 
   const { ref: titleRef, ...rest } = register("title");
-
+if(!isEditing){
   return (
     <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
       <form
@@ -230,6 +284,36 @@ function Editor({ subredditId }: Props) {
       </form>
     </div>
   );
-}
+    }
+
+//   return(<div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
+//   <form
+//     id="subreddit-edit-form"
+//     className="w-fit"
+//     onSubmit={}
+//   >
+//     <div className="prose prose-stone dark:prose-invert">
+//       <TextareaAutoSize
+//         ref={(e) => {
+//           titleRef(e);
+
+//           // Assign the ref to _titleRef for setting focus
+//           // @ts-ignore
+//           _titleRef.current = e;
+//         }}
+//         {...rest}
+//         placeholder="Title"
+//         className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
+//       />
+
+//       <div id="editor" className="min-h-[200px]" />
+//     </div>
+//   </form>
+// </div>
+// );
+
+  }
+
+
 
 export default Editor;

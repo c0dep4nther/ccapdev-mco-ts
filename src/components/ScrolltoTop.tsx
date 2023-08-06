@@ -11,7 +11,7 @@ const ScrollToTop: React.FC = () => {
   const controls = useScroll(); // Framer Motion hook to track scroll position
 
   // Calculate when to show the "Back to Top" button
-  const showButton = scroll.y > window.innerHeight / 2; // Change the threshold as needed
+  const showButton = typeof window !== 'undefined' && scroll.y > window.innerHeight / 2;
 
   return (
     <Box

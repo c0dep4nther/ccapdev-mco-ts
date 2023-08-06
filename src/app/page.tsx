@@ -2,10 +2,9 @@ import CustomFeed from "@/components/CustomFeed";
 import GeneralFeed from "@/components/GeneralFeed";
 import ScrollToTop from "@/components/ScrolltoTop";
 import TopSubreddits from "@/components/TopSubreddits";
-import JoinedSubreddits from "@/components/JoinedSubreddits";
 import { buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";
-import { HomeIcon, UsersIcon, UserCheckIcon } from "lucide-react";
+import { HomeIcon, UsersIcon } from "lucide-react";
 import Link from "next/link";
 
 export default async function Home() {
@@ -60,23 +59,6 @@ export default async function Home() {
               <TopSubreddits/>
             </dl>
           </div>
-
-          {session ? <>
-            {/* joined communities */}
-            <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first mt-3">
-              <div className="bg-indigo-300 px-6 py-4">
-                <p className="font-semibold py-3 flex items-center gap-1.5">
-                  <UserCheckIcon className="w-4 h-4" />
-                  Joined Communities
-                </p>
-              </div>
-
-              <dl className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
-                <JoinedSubreddits/>
-              </dl>
-            </div></>
-          : null}
-
           <ScrollToTop />
         </div>
       </div>

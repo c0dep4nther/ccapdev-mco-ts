@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { ExtendedPost } from "@/types/db";
@@ -56,23 +56,26 @@ function PostFeed({ initialPosts, subredditName, authorId }: Props) {
   }, [entry, fetchNextPage]);
 
   const posts = data?.pages.flatMap((page) => page) ?? initialPosts;
-  
+
   return (
     <ul className="flex flex-col col-span-2 space-y-6">
       {posts.map((post, index) => {
-        const votesAmt = post.votes.reduce((acc, vote) => {
-          if (vote.type === "UP") {
-            return acc + 1;
+        const votesAmt = (() => {
+          if (post.votes && post.votes.length > 0) {
+            let totalVotes = 0;
+            for (const vote of post.votes) {
+              if (vote.type === "UP") {
+                totalVotes += 1;
+              } else if (vote.type === "DOWN") {
+                totalVotes -= 1;
+              }
+            }
+            return totalVotes;
           }
+          return 0;
+        })();
 
-          if (vote.type === "DOWN") {
-            return acc - 1;
-          }
-
-          return acc;
-        }, 0);
-
-        const currentVote = post.votes.find(
+        const currentVote = post.votes?.find(
           (vote) => vote.userId === session?.user.id
         );
 

@@ -78,6 +78,10 @@ function UserAccountNav({ user, username, about }: Props) {
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
+          <Link href="/about">About FilmFusion</Link>
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem asChild>
           <Link href="/settings">Settings</Link>
         </DropdownMenuItem>
 
